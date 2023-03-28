@@ -25,9 +25,10 @@ if (url === '/message' && method === 'POST'){
     });
     req.on('end', () => {//Listener fired once it's done parsing the incoming data or the incoming requests
       const parsedBody = Buffer.concat(body).toString();
-      console.log(parsedBody);
+      // console.log(parsedBody);
+      const message = parsedBody.split('=')[1];
+      fs.writeFileSync('message.txt',message);
     });
-    fs.writeFileSync('message.txt', 'DUMMY');
     res.statusCode = 302;
     res.setHeader('location', '/' );
     return res.end();
@@ -42,7 +43,7 @@ if (url === '/message' && method === 'POST'){
   res.write('</html>');
   res.end();//You can't write anymore after this one
   
-  console.log(req.url, req.method, req.headers);
+  // console.log(req.url, req.method, req.headers);
 });
 
 server.listen(8000);
