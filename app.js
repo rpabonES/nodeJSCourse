@@ -27,11 +27,13 @@ if (url === '/message' && method === 'POST'){
       const parsedBody = Buffer.concat(body).toString();
       // console.log(parsedBody);
       const message = parsedBody.split('=')[1];
-      fs.writeFileSync('message.txt',message);
+      fs.writeFileSync('message.txt',message, err => {
+        res.statusCode = 302;
+        res.setHeader('location', '/' );
+        return res.end();
+      });
     });
-    res.statusCode = 302;
-    res.setHeader('location', '/' );
-    return res.end();
+
 
 }
 
